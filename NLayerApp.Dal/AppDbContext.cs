@@ -9,7 +9,7 @@ namespace NLayerApp.Dal
 {
     public class AppDbContext:DbContext
     {
-
+        // ikinci hafta yapılanlar
         public AppDbContext()
         {
             // todo appDbContext parametric olarak DbContext geçerek db connection sağlayacağız
