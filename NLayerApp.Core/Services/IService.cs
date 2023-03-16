@@ -24,7 +24,8 @@ namespace NLayerApp.Core.Services
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         // Veritbanında çalışacak sorguyu hazırlar.
         // select * from category where expression   -> toList();
-
+        Task<List<T>> GetAllAsync(); // Koşulsuz bütün Verilerin Listesini dönsün
+                          
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
 
         // true yada false => expression kiritelrine göre

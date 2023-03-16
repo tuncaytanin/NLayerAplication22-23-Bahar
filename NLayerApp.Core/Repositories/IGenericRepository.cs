@@ -30,5 +30,7 @@ namespace NLayerApp.Core.Repositories
 
         // true yada false => expression kiritelrine göre
 
+        Task<List<T>> GetAllAsync(); // Koşulsuz bütün Verilerin Listesini dönsün
+
     }
 }

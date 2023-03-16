@@ -10,9 +10,9 @@ namespace NLayerApp.Dal.UnitOfWorks
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;   
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork()
         {
-            _context= context;
+            _context= new AppDbContext();
         }
         public void Commit()
         {

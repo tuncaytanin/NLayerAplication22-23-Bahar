@@ -47,6 +47,11 @@ namespace NLayerApp.Service.Services
             return _repository.GetAll();   
         }
 
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
