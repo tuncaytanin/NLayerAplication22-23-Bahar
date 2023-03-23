@@ -14,9 +14,9 @@ namespace NLayerApp.Dal.Seeds
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasData(
-                new Category { Id=1,Name ="Elektronik Eşyalar"},
-                new Category { Id = 2, Name = "Çantalar" },
-                new Category { Id = 3, Name = "Telefonlar" }
+                new Category { Id = 1, Name ="Elektronik Eşyalar",Description ="Elektornik Eşyalar",CreateDate = DateTime.Now },
+                new Category { Id = 2, Name = "Çantalar"  , Description="Çantalar" ,CreateDate=DateTime.Now },
+                new Category { Id = 3, Name = "Telefonlar", Description="Telefonlar", CreateDate = DateTime.Now }
                 );
         }
     }

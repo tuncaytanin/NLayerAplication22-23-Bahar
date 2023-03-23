@@ -13,5 +13,7 @@ namespace NLayerApp.Core.Models
         public string Description { get; set; }
 
         public bool IsDeleted { get; set; } 
+
+        public virtual ICollection<Product> Products { get;}
     }
 }

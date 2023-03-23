@@ -12,7 +12,7 @@ namespace NLayerApp.Dal.Repositories
     public class CategoryRepository : GenericRepository<Category>, ICateogryRepository
     {
 
-        public CategoryRepository()
+        public CategoryRepository(AppDbContext context ) :base(context) 
         {
 
         }
