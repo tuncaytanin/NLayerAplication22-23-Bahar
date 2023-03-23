@@ -18,9 +18,9 @@ namespace NLayerApp.Dal.Repositories
 
         protected readonly DbSet<IEntity> _dbSet;
 
-        public GenericRepository()
+        public GenericRepository(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
             _dbSet = _context.Set<IEntity>();
         }
 
