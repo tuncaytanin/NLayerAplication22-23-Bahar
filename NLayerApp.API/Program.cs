@@ -1,9 +1,9 @@
-using NLayerApp.Core.Repositories;
-using NLayerApp.Core.Services;
-using NLayerApp.Core.UnitOfWorks;
-using NLayerApp.Dal.Repositories;
-using NLayerApp.Dal.UnitOfWorks;
-using NLayerApp.Service.Services;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using NLayerApp.API.Modules;
+using NLayerApp.Dal;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +14,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+#region DI
+/* RepoServiceModule içerisinde oluşturuyoruz
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICateogryRepository, CategoryRepository>();
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+*/
+#endregion
+
+
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), options =>
+    {
+        options.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+    });
+});
+
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServiceModule()));
+
 
 
 var app = builder.Build();
