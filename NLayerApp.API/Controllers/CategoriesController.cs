@@ -52,5 +52,12 @@ namespace NLayerApp.API.Controllers
              _categoryService.Update(category);
 
         }
+        [Route("[action]")]
+        [HttpGet]  // ÇAğırılma Yöntemi
+        public async Task<Category> GetById(int id)
+        {
+            var sonuc = await _categoryService.GetByIdAsync(id);
+            return sonuc;
+        }
     }
 }
