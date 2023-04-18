@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLayerApp.Core.DTOs.Categorie;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
 
@@ -11,13 +13,15 @@ namespace NLayerApp.API.Controllers
 
         #region DI
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
         #endregion
 
         // Dependecy injection => 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
             //Parametreli Constrcutor -> Yapıcı Metod.
             _categoryService = categoryService;
+            _mapper = mapper;
 
 
         }
@@ -38,18 +42,18 @@ namespace NLayerApp.API.Controllers
 
         [Route("[action]")]
         [HttpPost]  // ÇAğırılma Yöntemi
-        public async Task AddCategory(Category category)
+        public async Task AddCategory(CategoryAddDto categoryAddDto)
         {
 
-             await _categoryService.AddAsync(category); 
+             await _categoryService.AddAsync(_mapper.Map<Category>(categoryAddDto)); 
 
         }
 
         [Route("[action]")]
         [HttpPost]  // ÇAğırılma Yöntemi
-        public async Task UpdateCategory(Category category)
+        public async Task UpdateCategory(CategoryUpdateDto categoryUpdateDto)
         {
-             _categoryService.Update(category);
+             _categoryService.Update(_mapper.Map<Category>(categoryUpdateDto));
 
         }
         [Route("[action]")]
@@ -58,6 +62,14 @@ namespace NLayerApp.API.Controllers
         {
             var sonuc = await _categoryService.GetByIdAsync(id);
             return sonuc;
+        }
+
+        [Route("[action]")]
+        [HttpPost]  // ÇAğırılma Yöntemi
+        public async Task IsDeletedCategoryById(int id)
+        {
+
+            await _categoryService.IsDeletedByIdAsync(id);
         }
     }
 }

@@ -65,6 +65,7 @@ namespace NLayerApp.Dal.Repositories
             _dbSet.Update(entity);
         }
 
+
         public IQueryable<IEntity> Where(Expression<Func<IEntity, bool>> expression)
         {
            return _dbSet.AsNoTracking().Where(expression);
