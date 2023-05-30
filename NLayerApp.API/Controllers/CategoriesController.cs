@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NLayerApp.Core.DTOs.Categorie;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
@@ -36,6 +37,13 @@ namespace NLayerApp.API.Controllers
         [HttpGet]  // ÇAğırılma Yöntemi
         public async Task<List<Category>> GetList()
         {
+            var sonuc = await _categoryService.Where(x => !x.IsDeleted).ToListAsync();
+            return sonuc;
+        }
+        [Route("[action]")]
+        [HttpGet]  // ÇAğırılma Yöntemi
+        public async Task<List<Category>> GetListAll()
+        {
             var sonuc = await _categoryService.GetAllAsync();
             return sonuc;
         }
@@ -50,7 +58,7 @@ namespace NLayerApp.API.Controllers
         }
 
         [Route("[action]")]
-        [HttpPost]  // ÇAğırılma Yöntemi
+        [HttpPut]  // ÇAğırılma Yöntemi
         public async Task UpdateCategory(CategoryUpdateDto categoryUpdateDto)
         {
              _categoryService.Update(_mapper.Map<Category>(categoryUpdateDto));
@@ -71,5 +79,21 @@ namespace NLayerApp.API.Controllers
 
             await _categoryService.IsDeletedByIdAsync(id);
         }
+
+        [Route("[action]")]
+        [HttpGet]  // ÇAğırılma Yöntemi
+        public async Task<List<Category>> GetByNameAsync(string name)
+        {
+            var sonuc = await _categoryService.Where(x => x.Name.Contains(name) && !x.IsDeleted).ToListAsync();
+            return sonuc;
+        }
+        [Route("[action]/{name}")]
+        [HttpGet]  // ÇAğırılma Yöntemi
+        public async Task<List<Category>> GetByNameAllAsync(string name)
+        {
+            var sonuc = await _categoryService.Where(x => x.Name.Contains(name)).ToListAsync();
+            return sonuc;
+        }
+
     }
 }
