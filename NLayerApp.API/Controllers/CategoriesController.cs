@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NLayerApp.Core.ApiFilter.CategoryFilters;
 using NLayerApp.Core.DTOs.Categorie;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
@@ -81,18 +82,20 @@ namespace NLayerApp.API.Controllers
         }
 
         [Route("[action]")]
-        [HttpGet]  // ÇAğırılma Yöntemi
-        public async Task<List<Category>> GetByNameAsync(string name)
+        [HttpPost]  // ÇAğırılma Yöntemi
+        public async Task<List<Category>> GetByFilterAsync(CategoryFilter parametre)
         {
-            var sonuc = await _categoryService.Where(x => x.Name.Contains(name) && !x.IsDeleted).ToListAsync();
-            return sonuc;
-        }
-        [Route("[action]/{name}")]
-        [HttpGet]  // ÇAğırılma Yöntemi
-        public async Task<List<Category>> GetByNameAllAsync(string name)
-        {
-            var sonuc = await _categoryService.Where(x => x.Name.Contains(name)).ToListAsync();
-            return sonuc;
+            if (parametre.IsDeleted)
+            {
+                var sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name) && x.IsDeleted == parametre.IsDeleted).ToListAsync();
+                return sonuc;
+            }
+            else
+            {
+                var sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name)).ToListAsync();
+                return sonuc;
+            }
+ 
         }
 
     }

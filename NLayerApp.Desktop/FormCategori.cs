@@ -1,4 +1,5 @@
-﻿using NLayerApp.Core.DTOs.Categorie;
+﻿using NLayerApp.Core.ApiFilter.CategoryFilters;
+using NLayerApp.Core.DTOs.Categorie;
 using NLayerApp.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace NLayerApp.Desktop
     public partial class FormCategories : Form
     {
 
-        private static string url = "https://localhost:7245/api/";
+
 
         private Category selectedCategory;
 
@@ -43,20 +44,23 @@ namespace NLayerApp.Desktop
                 if (string.IsNullOrEmpty(txtNameSearch.Text) && !checkHepsiniGetir.Checked)
                 {
 
-                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(url + "Categories/GetList"));
+                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(Parametres.url + "Categories/GetList"));
 
-                }
-                else if(!string.IsNullOrEmpty(txtNameSearch.Text) && !checkHepsiniGetir.Checked)
-                {
-                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(url + "Categories/GetByNameAllAsync/name=" + txtNameSearch.Text));
-                }
-                else if (!string.IsNullOrEmpty(txtNameSearch.Text) && checkHepsiniGetir.Checked)
-                {
-                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(url + "Categories/GetByNameAsync/" + txtNameSearch.Text));
                 }
                 else
                 {
-                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(url + "Categories/GetListAll/" + txtNameSearch.Text));
+                    CategoryFilter categoryFilter = new CategoryFilter()
+                    {
+                        IsDeleted = !checkHepsiniGetir.Checked,
+                        Name = txtNameSearch.Text
+                    };
+
+                    // Todo get categorlist from HttpPost to call Api 
+                    var result = await client.PostAsJsonAsync(new Uri(Parametres.url + "Categories/GetByFilterAsync"), categoryFilter);
+                    if (result.IsSuccessStatusCode)
+                    {
+                        categories = result.Content.ReadFromJsonAsync<List<Category>>().Result;
+                    }
                 }
             }
             dtgwKategoriler.DataSource = null;
@@ -80,7 +84,7 @@ namespace NLayerApp.Desktop
 
             using (HttpClient client = new HttpClient())
             {
-                var result = await client.PutAsJsonAsync<CategoryUpdateDto>(new Uri(url + "Categories/UpdateCategory"), categoryUpdateDto);
+                var result = await client.PutAsJsonAsync<CategoryUpdateDto>(new Uri(Parametres.url + "Categories/UpdateCategory"), categoryUpdateDto);
                 if (result.IsSuccessStatusCode)
                 {
                     await CategoryList();
@@ -98,7 +102,7 @@ namespace NLayerApp.Desktop
                     Description = rtxtDescription.Text,
                     Name = txtName.Text
                 };
-                var result = await client.PostAsJsonAsync(new Uri(url + "Categories/AddCategory"), categoryAddDto);
+                var result = await client.PostAsJsonAsync(new Uri(Parametres.url + "Categories/AddCategory"), categoryAddDto);
                 if (result.StatusCode == System.Net.HttpStatusCode.OK)
                     await CategoryList();
                 else
@@ -116,7 +120,7 @@ namespace NLayerApp.Desktop
         {
             using (HttpClient client = new HttpClient())
             {
-                var result = await client.PostAsync(new Uri(url + "Categories/IsDeletedCategoryById/" + selectedCategory.Id), null);
+                var result = await client.PostAsync(new Uri(Parametres.url + "Categories/IsDeletedCategoryById/" + selectedCategory.Id), null);
                 if (result.IsSuccessStatusCode)
                 {
                     await CategoryList();
