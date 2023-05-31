@@ -1,5 +1,6 @@
-﻿using NLayerApp.Core.ApiFilter.CategoryFilters;
+﻿using NLayerApp.Core.ApiFilter;
 using NLayerApp.Core.DTOs.Categorie;
+using NLayerApp.Core.DTOs.Categories;
 using NLayerApp.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,10 @@ namespace NLayerApp.Desktop
 
 
 
-        private Category selectedCategory;
+        private CategoryDto selectedCategory;
 
-        private List<Category> categories;
+        private List<CategoryDto> categories;
+
         public FormCategories()
         {
             InitializeComponent();
@@ -38,30 +40,42 @@ namespace NLayerApp.Desktop
 
         public async Task CategoryList()
         {
-            categories = new List<Category>();
+            categories = new List<CategoryDto>();
             using (HttpClient client = new HttpClient())
             {
-                if (string.IsNullOrEmpty(txtNameSearch.Text) && !checkHepsiniGetir.Checked)
+                try
                 {
-
-                    categories = await client.GetFromJsonAsync<List<Category>>(new Uri(Parametres.url + "Categories/GetList"));
-
-                }
-                else
-                {
-                    CategoryFilter categoryFilter = new CategoryFilter()
+                    if (string.IsNullOrEmpty(txtNameSearch.Text) && !checkHepsiniGetir.Checked)
                     {
-                        IsDeleted = !checkHepsiniGetir.Checked,
-                        Name = txtNameSearch.Text
-                    };
 
-                    // Todo get categorlist from HttpPost to call Api 
-                    var result = await client.PostAsJsonAsync(new Uri(Parametres.url + "Categories/GetByFilterAsync"), categoryFilter);
-                    if (result.IsSuccessStatusCode)
+                        categories   = await client.GetFromJsonAsync<List<CategoryDto>>(new Uri(Parametres.url + "Categories/GetList"));
+
+                      
+
+                    }
+                    else
                     {
-                        categories = result.Content.ReadFromJsonAsync<List<Category>>().Result;
+                        CategoryFilter categoryFilter = new CategoryFilter()
+                        {
+                            IsDeleted = !checkHepsiniGetir.Checked,
+                            Name = txtNameSearch.Text
+                        };
+
+                        // Todo get categorlist from HttpPost to call Api 
+                        var result = await client.PostAsJsonAsync(new Uri(Parametres.url + "Categories/GetByFilter"), categoryFilter);
+                        if (result.IsSuccessStatusCode)
+                        {
+                            categories= result.Content.ReadFromJsonAsync<List<CategoryDto>>().Result;
+
+                        }
                     }
                 }
+                catch (Exception hata)
+                {
+
+                   lblMessage.Text = hata.Message;
+                }
+
             }
             dtgwKategoriler.DataSource = null;
             dtgwKategoriler.DataSource = categories.ToList();

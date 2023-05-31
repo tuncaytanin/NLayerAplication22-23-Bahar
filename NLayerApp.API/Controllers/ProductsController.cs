@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
+using NLayerApp.Core.ApiFilter;
 using NLayerApp.Core.DTOs;
+using NLayerApp.Core.DTOs.Categories;
 using NLayerApp.Core.DTOs.Products;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
+using NLayerApp.Service.Services;
 
 namespace NLayerApp.API.Controllers
 {
@@ -20,10 +25,22 @@ namespace NLayerApp.API.Controllers
         }
         [Route("[action]")]
         [HttpGet]  // ÇAğırılma Yöntemi
-        public async Task<List<Product>> GetList()
+        public async Task<List<ProductDto>> GetList()
         {
             var sonuc = await _productService.GetAllAsync();
-            return sonuc;
+            return _mapper.Map<List<ProductDto>>(sonuc);
+        }
+        [Route("[action]")]
+        [HttpPost]  // ÇAğırılma Yöntemi
+        public async Task<List<ProductDto>> GetByFilter(ProductFilter parametre)
+        {
+            List<Product> sonuc;
+            if (!string.IsNullOrEmpty(parametre.Name))
+                sonuc = await _productService.Where(x => x.Name.Contains(parametre.Name)).ToListAsync();
+            else
+                 sonuc = await _productService.GetAllAsync();
+
+            return _mapper.Map<List<ProductDto>>(sonuc);
         }
 
         [Route("[action]")]
@@ -47,10 +64,16 @@ namespace NLayerApp.API.Controllers
         }
         [Route("[action]")]
         [HttpGet]  // ÇAğırılma Yöntemi
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<ProductDto> GetByIdAsync(int id)
         {
             var sonuc = await _productService.GetByIdAsync(id);
-            return sonuc;
+            return _mapper.Map<ProductDto>(sonuc);
+        }
+        [Route("[action]")]
+        [HttpPost]  // ÇAğırılma Yöntemi
+        public async Task Delete(int id)
+        {
+            await _productService.DeleteAsync(id);
         }
     }
 }

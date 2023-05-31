@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NLayerApp.Core.ApiFilter.CategoryFilters;
+using NLayerApp.Core.ApiFilter;
 using NLayerApp.Core.DTOs.Categorie;
+using NLayerApp.Core.DTOs.Categories;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
 
@@ -39,7 +40,7 @@ namespace NLayerApp.API.Controllers
         public async Task<List<Category>> GetList()
         {
             var sonuc = await _categoryService.Where(x => !x.IsDeleted).ToListAsync();
-            return sonuc;
+            return _mapper.Map<List<Category>>(sonuc);
         }
         [Route("[action]")]
         [HttpGet]  // ÇAğırılma Yöntemi
@@ -83,19 +84,19 @@ namespace NLayerApp.API.Controllers
 
         [Route("[action]")]
         [HttpPost]  // ÇAğırılma Yöntemi
-        public async Task<List<Category>> GetByFilterAsync(CategoryFilter parametre)
+        public async Task<List<CategoryDto>> GetByFilterAsync(CategoryFilter parametre)
         {
+            List<Category> sonuc;
             if (parametre.IsDeleted)
             {
-                var sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name) && x.IsDeleted == parametre.IsDeleted).ToListAsync();
-                return sonuc;
+                 sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name) && x.IsDeleted == parametre.IsDeleted).ToListAsync(); // List<Category>
             }
             else
             {
-                var sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name)).ToListAsync();
-                return sonuc;
+                 sonuc = await _categoryService.Where(x => x.Name.Contains(parametre.Name)).ToListAsync();
+              
             }
- 
+            return _mapper.Map<List<CategoryDto>>(sonuc);
         }
 
     }
