@@ -9,11 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayerApp.Dal", "NLayerApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayerApp.Service", "NLayerApp.Service\NLayerApp.Service.csproj", "{4CA93792-CB3C-45D6-8D76-59C35DB51F26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayerApp.Web", "NLayerApp.Web\NLayerApp.Web.csproj", "{C7EB13C8-5D86-4A6C-B014-82D9E131FD8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayerApp.Desktop", "NLayerApp.Desktop\NLayerApp.Desktop.csproj", "{D7760202-3C6E-43A2-92B6-D0DCB9021F66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayerApp.Desktop", "NLayerApp.Desktop\NLayerApp.Desktop.csproj", "{D7760202-3C6E-43A2-92B6-D0DCB9021F66}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayerApp.API", "NLayerApp.API\NLayerApp.API.csproj", "{A2F840C3-CBD4-497B-9A09-05501F1C6165}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLayerApp.API", "NLayerApp.API\NLayerApp.API.csproj", "{A2F840C3-CBD4-497B-9A09-05501F1C6165}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{4CA93792-CB3C-45D6-8D76-59C35DB51F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CA93792-CB3C-45D6-8D76-59C35DB51F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CA93792-CB3C-45D6-8D76-59C35DB51F26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7EB13C8-5D86-4A6C-B014-82D9E131FD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7EB13C8-5D86-4A6C-B014-82D9E131FD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7EB13C8-5D86-4A6C-B014-82D9E131FD8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7EB13C8-5D86-4A6C-B014-82D9E131FD8A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7760202-3C6E-43A2-92B6-D0DCB9021F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7760202-3C6E-43A2-92B6-D0DCB9021F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7760202-3C6E-43A2-92B6-D0DCB9021F66}.Release|Any CPU.ActiveCfg = Release|Any CPU

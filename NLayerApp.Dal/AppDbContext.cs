@@ -13,15 +13,13 @@ namespace NLayerApp.Dal
 {
     public class AppDbContext:DbContext
     {
-        public AppDbContext() { }
+
         // ikinci hafta yapılanlar
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options) 
         {
             // todo appDbContext parametric olarak DbContext geçerek db connection sağlayacağız
             
         }
-
-
 
 
         // Veritabanı yansıtılmasını istediğiniz nesneleri DbSet<Entity> şeklinde tanımlamalıyız
