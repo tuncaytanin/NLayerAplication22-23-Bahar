@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLayerApp.Core.ApiFilter;
-using NLayerApp.Core.DTOs.Categorie;
 using NLayerApp.Core.DTOs.Categories;
 using NLayerApp.Core.Models;
 using NLayerApp.Core.Services;
@@ -66,16 +65,16 @@ namespace NLayerApp.API.Controllers
              _categoryService.Update(_mapper.Map<Category>(categoryUpdateDto));
 
         }
-        [Route("[action]")]
+        [Route("[action]/{id:int}")]
         [HttpGet]  // ÇAğırılma Yöntemi
-        public async Task<Category> GetById(int id)
+        public async Task<CategoryDto> GetById(int id)
         {
             var sonuc = await _categoryService.GetByIdAsync(id);
-            return sonuc;
+            return _mapper.Map<CategoryDto>(sonuc);
         }
 
-        [Route("[action]")]
-        [HttpPost]  // ÇAğırılma Yöntemi
+        [Route("[action]/{id:int}")]
+        [HttpDelete]  // ÇAğırılma Yöntemi
         public async Task IsDeletedCategoryById(int id)
         {
 

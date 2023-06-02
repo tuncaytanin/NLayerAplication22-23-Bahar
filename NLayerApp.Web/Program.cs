@@ -5,6 +5,7 @@ using NLayerApp.Dal;
 using NLayerApp.Web.Services;
 using System.Reflection;
 using NLayerApp.Web.Modules;
+using NLayerApp.Service.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,9 +31,10 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerB
 
 builder.Services.AddHttpClient<CategoryApiService>(opt =>
 {
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]+ "Categories/");
 });
 
+builder.Services.AddAutoMapper(typeof(MapProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NLayerApp.Core.DTOs.Categorie
+namespace NLayerApp.Core.DTOs.Categories
 {
     public class CategoryAddDto
     {

@@ -1,4 +1,4 @@
-﻿namespace NLayerApp.Core.DTOs.Categorie
+﻿namespace NLayerApp.Core.DTOs.Categories
 {
     public class CategoryUpdateDto
     {
